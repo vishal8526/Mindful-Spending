@@ -1,0 +1,39 @@
+name: Daily Graph Update
+
+on:
+  schedule:
+    - cron: '20 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  daily-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Git identity
+        run: |
+          git config user.name "vishal8526"
+          git config user.email "vishal63mittal@gmail.com"
+
+      - name: Update daily log
+        run: |
+          mkdir -p daily-log
+          today=$(date -u +"%Y-%m-%d")
+          timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          echo "- auto update at ${timestamp}" >> "daily-log/${today}.md"
+
+      - name: Commit and push
+        run: |
+          git add daily-log/*.md
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "chore: daily graph update"
+          git push

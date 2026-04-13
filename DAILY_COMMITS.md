@@ -33,3 +33,17 @@ git config user.email "vishal63mittal@gmail.com"
 ```
 
 If your GitHub account uses a different verified email, use that instead.
+
+## Optional: fully automatic daily commit (GitHub Actions)
+
+This repository includes a workflow at `.github/workflows/daily-graph.yml`.
+
+- Runs every day at **04:20 UTC**
+- Appends one line to `daily-log/YYYY-MM-DD.md`
+- Commits and pushes with your configured Git identity
+
+You can also run it manually from GitHub:
+
+- Open **Actions** tab
+- Select **Daily Graph Update**
+- Click **Run workflow**
