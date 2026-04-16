@@ -1,7 +1,7 @@
-import 'dart:io';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:csv/csv.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:share_plus/share_plus.dart'; // Use this package
@@ -28,9 +28,12 @@ class ExportService {
         tx.type.name,
       ]);
     }
-    String csv = const ListToCsvConverter().convert(rows);
-    // We call the new save and share method
-    await _saveAndShareFile('transactions.csv', csv);
+    final csv = const ListToCsvConverter().convert(rows);
+    await _shareBytes(
+      fileName: 'transactions.csv',
+      bytes: Uint8List.fromList(utf8.encode(csv)),
+      mimeType: 'text/csv',
+    );
   }
 
   // This function doesn't change
@@ -41,7 +44,7 @@ class ExportService {
         pageFormat: PdfPageFormat.a4,
         build: (context) => [
           pw.Header(text: 'Transaction Report', level: 0),
-          pw.Table.fromTextArray(
+          pw.TableHelper.fromTextArray(
             headers: ['Date', 'Title', 'Category', 'Amount', 'Type'],
             data: transactions.map((tx) {
               final category = categoryProvider.getCategoryById(tx.categoryId);
@@ -59,25 +62,23 @@ class ExportService {
       ),
     );
     final bytes = await pdf.save();
-    // We call the new save and share method
-    await _saveAndShareFile('transactions.pdf', bytes);
+    await _shareBytes(
+      fileName: 'transactions.pdf',
+      bytes: bytes,
+      mimeType: 'application/pdf',
+    );
   }
 
-  /// Saves the file to a temporary directory and then opens the native share dialog.
-  Future<void> _saveAndShareFile(String fileName, dynamic data) async {
-    // 1. Save the file to a temporary private directory
-    final directory = await getApplicationDocumentsDirectory();
-    final path = '${directory.path}/$fileName';
-    final file = File(path);
-
-    if (data is String) {
-      await file.writeAsString(data);
-    } else if (data is List<int>) {
-      await file.writeAsBytes(data);
-    }
-
-    // 2. Use share_plus to open the share dialog
-    // The user can now choose to save it to their "Downloads" folder or any other app.
-    await Share.shareXFiles([XFile(path)], text: 'My Transaction Report');
+  Future<void> _shareBytes({
+    required String fileName,
+    required Uint8List bytes,
+    required String mimeType,
+  }) async {
+    await SharePlus.instance.share(
+      ShareParams(
+        files: [XFile.fromData(bytes, name: fileName, mimeType: mimeType)],
+        text: 'My Transaction Report',
+      ),
+    );
   }
 }

@@ -17,27 +17,27 @@ class CategoryProvider with ChangeNotifier {
         Category(
           name: 'Food',
           iconCodePoint: Icons.fastfood.codePoint,
-          colorValue: Colors.orange.value,
+          colorValue: Colors.orange.toARGB32(),
         ),
         Category(
           name: 'Transport',
           iconCodePoint: Icons.directions_car.codePoint,
-          colorValue: Colors.blue.value,
+          colorValue: Colors.blue.toARGB32(),
         ),
         Category(
           name: 'Shopping',
           iconCodePoint: Icons.shopping_bag.codePoint,
-          colorValue: Colors.purple.value,
+          colorValue: Colors.purple.toARGB32(),
         ),
         Category(
           name: 'Bills',
           iconCodePoint: Icons.receipt_long.codePoint,
-          colorValue: Colors.red.value,
+          colorValue: Colors.red.toARGB32(),
         ),
         Category(
           name: 'Salary',
           iconCodePoint: Icons.account_balance_wallet.codePoint,
-          colorValue: Colors.green.value,
+          colorValue: Colors.green.toARGB32(),
         ),
       ];
       for (var cat in defaultCategories) {

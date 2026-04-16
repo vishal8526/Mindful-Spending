@@ -62,7 +62,7 @@ class CategoriesScreen extends StatelessWidget {
                   colorValue: Colors
                       .primaries[nameController.text.length %
                           Colors.primaries.length]
-                      .value, // Fun random color
+                      .toARGB32(), // Fun random color
                 );
                 Provider.of<CategoryProvider>(
                   context,

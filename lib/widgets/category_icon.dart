@@ -9,9 +9,13 @@ class CategoryIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       backgroundColor: Color(category.colorValue),
-      child: Icon(
-        IconData(category.iconCodePoint, fontFamily: 'MaterialIcons'),
-        color: Colors.white,
+      child: Text(
+        String.fromCharCode(category.iconCodePoint),
+        style: const TextStyle(
+          fontFamily: 'MaterialIcons',
+          color: Colors.white,
+          fontSize: 20,
+        ),
       ),
     );
   }

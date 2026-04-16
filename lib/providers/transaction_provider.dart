@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/transaction.dart';
-import '../models/category.dart';
-import 'dart:collection';
 
 class TransactionProvider with ChangeNotifier {
   final Box<Transaction> _transactionBox = Hive.box<Transaction>(

@@ -155,7 +155,7 @@ class DashboardScreen extends StatelessWidget {
                                     return PieChartSectionData(
                                       color: Color(
                                         category?.colorValue ??
-                                            Colors.grey.value,
+                                            Colors.grey.toARGB32(),
                                       ),
                                       value: entry.value,
                                       title:
@@ -181,7 +181,8 @@ class DashboardScreen extends StatelessWidget {
                                       .getCategoryById(entry.key);
                                   return PieChartIndicator(
                                     color: Color(
-                                      category?.colorValue ?? Colors.grey.value,
+                                      category?.colorValue ??
+                                          Colors.grey.toARGB32(),
                                     ),
                                     text: category?.name ?? 'Unknown',
                                     isSquare: false,
