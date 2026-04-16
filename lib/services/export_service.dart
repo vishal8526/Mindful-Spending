@@ -74,11 +74,9 @@ class ExportService {
     required Uint8List bytes,
     required String mimeType,
   }) async {
-    await SharePlus.instance.share(
-      ShareParams(
-        files: [XFile.fromData(bytes, name: fileName, mimeType: mimeType)],
-        text: 'My Transaction Report',
-      ),
+    await Share.shareXFiles(
+      [XFile.fromData(bytes, name: fileName, mimeType: mimeType)],
+      text: 'My Transaction Report',
     );
   }
 }
